@@ -4,7 +4,7 @@
   <h3 align="center">Netflix Viewing Activity</h3>
 
   <p align="center">
-    :tv: Download all of your Netflix account viewing activity in JSON or CSV.
+    Download all of your Netflix account viewing activity in JSON or CSV.
     <br>
     <a href="https://chrome.google.com/webstore/detail/netflix-viewing-activity/akcphadjbeckmkdoimhbfechbandeggg?utm_source=github"><strong>Install for Google Chrome &raquo;</strong></a>
     <br>
