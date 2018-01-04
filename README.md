@@ -1,7 +1,7 @@
 <p align="center">
   <img src="src/img/nva-128.png" width=128 height=128>
 
-  <h1 align="center">Netflix Viewing Activity</h1>
+  <h3 align="center">Netflix Viewing Activity</h3>
 
   <p align="center">
     :tv: Download all of your Netflix account viewing activity in JSON or CSV.
@@ -18,8 +18,8 @@
 </p>
 
 <p align="center">
-[![Chrome Web Store](https://img.shields.io/chrome-web-store/v/akcphadjbeckmkdoimhbfechbandeggg.svg)](https://chrome.google.com/webstore/detail/netflix-viewing-activity/akcphadjbeckmkdoimhbfechbandeggg)
-[![license](https://img.shields.io/github/license/lesander/netflix-viewing-activity.svg)]()
+  <a href="https://chrome.google.com/webstore/detail/netflix-viewing-activity/akcphadjbeckmkdoimhbfechbandeggg?utm_source=github_badge"><img alt="Chrome Web Store" src="https://img.shields.io/chrome-web-store/v/akcphadjbeckmkdoimhbfechbandeggg.svg"></a>
+  <a href="#"><img alt="License" src="https://img.shields.io/github/license/lesander/netflix-viewing-activity.svg"></a>
 </p>
 
 ## Contributing
