@@ -117,7 +117,7 @@ const downloadHistory = async (event) => {
 
   /* We set the records amount to infinity for now. Once the API sends back
      less than pageSize results, we stop crawling. */
-  const pageSize = 100
+  const pageSize = 20
   const pagesToLoad = Infinity
 
   /* Download each page and append the results in to one array.
