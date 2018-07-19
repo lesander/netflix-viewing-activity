@@ -183,7 +183,9 @@ const downloadHistory = async (event) => {
     // Convert the object to CSV using papaparse (http://papaparse.com).
     const csv = Papa.unparse(history, {
       quotes: true,
-      header: true
+      header: true,
+      delimiter: ';',
+      newline: "\r\n"
     })
     data = `data:text/csv;charset=utf-8,${csv}`
 
