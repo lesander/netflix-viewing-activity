@@ -22,7 +22,7 @@ $(() => {
   // Create a navigation tab on the viewing activity page.
   $(`.aro-genre-list > ul`).append(`
     <li>
-      <a href="#" class="va-active">My Activity</a>
+      <a href="/viewingactivity" class="va-active">My Activity</a>
     </li>
   `)
 
