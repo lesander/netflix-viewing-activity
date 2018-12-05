@@ -46,6 +46,9 @@ $(() => {
 
   // Attach an event listener to the final download button.
   $(document).on(`click`, `.va-b-download`, downloadHistory)
+
+  // Attach an event listener to the close button for errors.
+  $(document).on(`click`, `.va-b-cancel`, hideDownloadModal)
 })
 
 
@@ -57,11 +60,11 @@ const viewDownloadModal = () => {
 
   // If the modal element already exists,
   // we do not need to create it again but just show it.
-  let modal = $(`.va-modal`)
+  let modal = $(`.va-modal-download`)
   if ($(modal).length) return $(modal).show()
 
   $(`body`).append(`
-    <div class="va-modal">
+    <div class="va-modal va-modal-download">
       <div class="va-modal-contents">
         <div class="va-modal-title">
           Download
