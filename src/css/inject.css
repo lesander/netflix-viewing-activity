@@ -32,6 +32,11 @@
   justify-content:center;
   align-items:center;
 }
+
+.va-modal-error {
+  z-index: 30;
+}
+
 .va-modal-contents {
   background-color: #fff;
   color: #333;
@@ -55,6 +60,11 @@
 
   text-align: center;
 }
+
+.va-modal-error .va-modal-title {
+  background-color: #e50914;
+}
+
 .va-modal-title > select {
   color: #000;
 }

@@ -92,9 +92,60 @@ const viewDownloadModal = () => {
 /**
  * Hide the download modal.
  * @return {boolean}
+ * Display a nice modal to show the end-user an error.
+ * @param  {Object} err
+ * @return {void}
+ */
+const viewCriticalError = (err) => {
+
+  // If the modal element already exists,
+  // we do not need to create it again but just show it.
+  let errorModal = $(`.va-modal-error`)
+  if ($(errorModal).length) return $(errorModal).show()
+
+  $(`body`).append(`
+    <div class="va-modal va-modal-error">
+      <div class="va-modal-contents">
+        <div class="va-modal-title" style="padding-bottom:1em;">
+          <h2>
+            <strong>Netflix Viewing Activity</strong> has encountered an error
+          </h2>
+        </div>
+        <div class="va-modal-body">
+          <p>
+            We haven't seen this problem before. It looks like Netflix
+            has changed something on this page, and now the extension
+            is unable to fetch some important things.
+            The technical error is shown below.
+          </p>
+          <p>
+            <pre class="va-modal-error-message"></pre>
+          </p>
+        </div>
+        <div class="va-modal-footer">
+          <button class="va-button va-button-small va-b-cancel">Close</button>
+          <button
+            class="va-button va-button-blue va-button-small"
+            onclick="window.open('https://github.com/lesander/netflix-viewing-activity/issues', '_blank')"
+          >Report Issue</button>
+        </div>
+      </div>
+    </div>
+  `)
+
+  // Set the detailed error message.
+  $(`.va-modal-error-message`).text(err)
+}
+
+/**
+ * Hide the modal.
+ * @return {void}
  */
 const hideDownloadModal = () => {
-  return $(`.va-modal`).hide()
+  $(`.va-modal:visible`).hide()
+  $(`.va-modal-error:visible`).hide()
+  hideWorkingAnimation()
+  return
 }
 
 /**
@@ -109,9 +160,16 @@ const downloadHistory = async (event) => {
   const file = $(`select[name=va-format]`).val() || 'json'
 
   /* Find the required API call parameters in Netflix's reactContext. */
-  const authUrl = window.netflix.reactContext.models.memberContext.data.userInfo.authURL
-  const buildIdentifier = window.netflix.reactContext.models.serverDefs.data.BUILD_IDENTIFIER
-  const apiBaseUrl = decodeURI(window.netflix.reactContext.models.serverDefs.data.API_BASE_URL)
+  let authUrl, buildIdentifier, apiBaseUrl
+  try {
+    authUrl = window.netflix.reactContext.models.memberContext.data.userInfo.authURL
+    buildIdentifier = window.netflix.reactContext.models.serverDefs.data.BUILD_IDENTIFIER
+    apiBaseUrl = decodeURI(window.netflix.reactContext.models.serverDefs.data.API_BASE_URL)
+  } catch (err) {
+    console.log('[NVA Downloader] authUrl, buildIdentifier or apiBaseUrl locations have changed.', "\n", err)
+    viewCriticalError(err)
+    throw new Error('Unable to obtain critical API variables. Please report this issue on GitHub.')
+  }
 
   console.debug(`[NVA Downloader] authUrl, buildIdentifier, apiBaseUrl`, authUrl, buildIdentifier, apiBaseUrl)
 
