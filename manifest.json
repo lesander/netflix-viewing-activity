@@ -2,7 +2,7 @@
   "name": "Netflix Viewing Activity",
   "description": "This open-source extension automatically retrieves your Netflix viewing activity in JSON or CSV format.",
   "homepage_url": "https://github.com/lesander/netflix-viewing-activity",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "manifest_version": 2,
   "icons": {
     "128": "src/img/nva-128.png"
