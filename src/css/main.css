@@ -62,6 +62,11 @@
   background-color: #e50914;
 }
 
+.va-modal-error-message {
+  font-family: monospace !important;
+  max-width: 600px;
+}
+
 .va-modal-title > select {
   color: #000;
 }
