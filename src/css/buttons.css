@@ -1,0 +1,94 @@
+/** Make sure the buttons keep working,
+    even after Netflix changes their style. **/
+
+/** Default button **/
+.va-button {
+  position: relative;
+  font-size: 1em;
+  padding: 24.5px 2em;
+  min-width: 74px;
+  min-height: 50px;
+  margin: .5em .5em .5em 0;
+
+  display: inline-block;
+  text-decoration: none;
+  line-height: 1em;
+  vertical-align: middle;
+  cursor: pointer;
+  font-weight: 400;
+  letter-spacing: .1px;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  text-align: center;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  border: 0;
+
+  color: #000;
+  background-color: #e6e6e6;
+  background-image: -webkit-gradient(linear,left top,left bottom,from(#e6e6e6),to(#ddd));
+  background-image: -webkit-linear-gradient(top,#e6e6e6,#ddd);
+  background-image: -moz-linear-gradient(top,#e6e6e6,#ddd);
+  background-image: -o-linear-gradient(top,#e6e6e6,#ddd);
+  background-image: linear-gradient(to bottom,#e6e6e6,#ddd);
+  -webkit-box-shadow: 0 1px 0 rgba(0,0,0,.2);
+  -moz-box-shadow: 0 1px 0 rgba(0,0,0,.2);
+  box-shadow: 0 1px 0 rgba(0,0,0,.2);
+}
+
+.va-button:hover {
+  text-decoration: none;
+  background: #eaeaea;
+  -webkit-box-shadow: 0 1px 0 rgba(0,0,0,.2);
+  -moz-box-shadow: 0 1px 0 rgba(0,0,0,.2);
+  box-shadow: 0 1px 0 rgba(0,0,0,.2);
+}
+
+.va-button:active {
+  background: #c2c2c2;
+}
+
+/** Small button **/
+.va-button.va-button-small {
+  display: inline-block;
+  font-size: 13px;
+  padding: 12px 2em;
+  min-width: 98px;
+  min-height: 37px;
+  margin-right: .5em;
+  padding-left: 1em;
+  padding-right: 1em;
+  width: auto;
+  line-height: 1em;
+}
+
+/** Blue button **/
+.va-button-blue {
+	color: #fff;
+	background-color: #0080ff;
+	background-image: -webkit-gradient(linear,left top,left bottom,from(#0080ff),to(#0277ec));
+	background-image: -webkit-linear-gradient(top,#0080ff,#0277ec);
+	background-image: -moz-linear-gradient(top,#0080ff,#0277ec);
+	background-image: -o-linear-gradient(top,#0080ff,#0277ec);
+	background-image: linear-gradient(to bottom,#0080ff,#0277ec);
+	-webkit-box-shadow: 0 1px 0 rgba(0,0,0,.55);
+	-moz-box-shadow: 0 1px 0 rgba(0,0,0,.55);
+	box-shadow: 0 1px 0 rgba(0,0,0,.55);
+}
+
+.va-button-blue:hover {
+	background: #2490fd;
+  -webkit-box-shadow: 0 1px 0 rgba(0,0,0,.55);
+  -moz-box-shadow: 0 1px 0 rgba(0,0,0,.55);
+  box-shadow: 0 1px 0 rgba(0,0,0,.55);
+}
+
+.va-button-blue:active {
+  background: #0166c9;
+}

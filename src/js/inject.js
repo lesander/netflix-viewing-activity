@@ -67,39 +67,55 @@ const viewDownloadModal = () => {
     <div class="va-modal va-modal-download">
       <div class="va-modal-contents">
         <div class="va-modal-title">
-          Download
-          <select class="va-input" name="va-type">
-            <option value="viewingactivity" selected>Watching</option>
-            <option value="ratinghistory">Ratings</option>
-          </select>
-          Activity
+          <h1>
+            <span class="va-input-section">
+              Download
+              <select class="va-input" name="va-type">
+                <option value="viewingactivity" selected>Watching</option>
+                <option value="ratinghistory">Ratings</option>
+              </select>
+              Activity
+            </span>
+            <span class="va-loading-section">
+              <h1></h1>
+            </span>
+          </h1>
         </div>
         <div class="va-modal-body">
           <p>
             We will attempt to download all history related to your selected option.
-            Depending on your history, this might take a little while.<br>
+            Depending on your history, this might take a little while.
             Once complete, your history will be downloaded to your computer.
           </p>
 
-          <label>Please select an output file format</label>
-          <select class="va-input" name="va-format">
-            <option value="csv">CSV</option>
-            <option value="json">JSON</option>
-          </select>
+          <div class="va-input-section">
+            <label>Please select an output file format</label>
+            <select class="va-input" name="va-format">
+              <option value="csv">CSV</option>
+              <option value="json">JSON</option>
+            </select>
+          </div>
+
+          <div class="va-loading-section">
+            <div class="va-circle-loader">
+                <div class="va-checkmark va-draw"></div>
+            </div>
+          </div>
 
         </div>
         <div class="va-modal-footer">
-          <button class="va-button va-b-cancel">Cancel</button>
-          <button class="va-button va-b-download">Download</button>
+          <button class="va-button va-button-small va-b-cancel">Close</button>
+          <button class="va-button va-button-blue va-button-small va-b-download">Download</button>
         </div>
       </div>
     </div>
   `)
+
+  // Reset state of animation and modal.
+  hideWorkingAnimation()
 }
 
 /**
- * Hide the download modal.
- * @return {boolean}
  * Display a nice modal to show the end-user an error.
  * @param  {Object} err
  * @return {void}
@@ -143,6 +159,55 @@ const viewCriticalError = (err) => {
 
   // Set the detailed error message.
   $(`.va-modal-error-message`).text(err)
+}
+
+/**
+ * Display a nice animation to show the end-user we're working on it.
+ * @return {void}
+ */
+const showWorkingAnimation = () => {
+
+  // Start spinning
+  $(`.va-loading-section`).show()
+  $(`.va-input-section`).hide()
+
+  // Hide download button
+  $(`.va-b-download`).hide()
+
+  // Update title
+  $(`.va-loading-section > h1`).text(`Working on it..`)
+}
+
+/**
+ * Display a nice message to show the end-user we're done.
+ * @param {integer} amountOfItems
+ * @return {void}
+ */
+const showDone = (amountOfItems) => {
+
+  // Stop spinning
+  $(`.va-circle-loader`).addClass(`va-load-complete`)
+
+  // Show the checkmark
+  $(`.va-checkmark`).show()
+
+  // Update the title
+  $(`.va-loading-section > h1`).text(`Done!`)
+
+  // Show the amount of found items.
+  // TODO.
+}
+
+const hideWorkingAnimation = () => {
+
+  // Hide loading section
+  $(`.va-loading-section`).hide()
+  $(`.va-circle-loader`).removeClass(`va-load-complete`)
+  $(`.va-checkmark`).hide()
+
+  // Show input fields & download button
+  $(`.va-input-section`).show()
+  $(`.va-b-download`).show()
 }
 
 /**
@@ -190,6 +255,8 @@ const downloadHistory = async (event) => {
      By default, no recordsAmount is given, so we continue parsing pages
      until the last result has less records than the given pageSize.
      AFAIK this is also the way Netflix loads all records client-side. */
+  showWorkingAnimation()
+
   let history = []
   for (var i = 0; i < pagesToLoad; i++) {
 
@@ -265,6 +332,8 @@ const downloadHistory = async (event) => {
   link.setAttribute(`download`, fileName)
   link.click()
   link.remove()
+
+  showDone(history.length)
 
   /* Return the history array.
      dunno, maybe someone wants to do something with it. */
