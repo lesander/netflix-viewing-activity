@@ -1,3 +1,8 @@
+
+/** Use Netflix's fancy font on all 'va-' classes. **/
+*[class^="va-"] {
+  font-family: 'Netflix Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
 .va-active {
   color: #fff !important;
 }
