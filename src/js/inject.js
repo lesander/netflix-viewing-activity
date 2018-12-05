@@ -26,12 +26,15 @@ $(() => {
     </li>
   `)
 
-  // Create a button on the viewing activity page.
-  $(`h1`).append(`
-    <div class="va-dl">
-      <button class="va-button" id="va-download">Download</button>
-    </div>
-  `)
+  // Create a download button on the viewing activity page.
+  if (document.location.pathname === '/viewingactivity') {
+    $(`h1`).append(`
+      <div class="va-dl">
+        <button class="va-button va-button-blue va-button-small" id="va-download">Download</button>
+      </div>
+    `)
+  }
+
 
   // Attatch an event listener to the download button.
   $(document).on(`click`, `#va-download`, viewDownloadModal)
