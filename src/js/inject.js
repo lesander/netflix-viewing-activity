@@ -239,7 +239,7 @@ const downloadHistory = async (event) => {
     // We rely on these three parameters to form a valid API call.
     authUrl = window.netflix.reactContext.models.memberContext.data.userInfo.authURL
     buildIdentifier = window.netflix.reactContext.models.serverDefs.data.BUILD_IDENTIFIER
-    rawApiBaseUrl = window.netflix.reactContext.models.serverDefs.data.BOGUS_API_BASE_URL
+    rawApiBaseUrl = window.netflix.reactContext.models.serverDefs.data.API_BASE_URL
     apiBaseUrl = decodeURI(rawApiBaseUrl)
 
     // If any of them is undefined, we raise an error to let the error handler handle this.
