@@ -235,11 +235,25 @@ const downloadHistory = async (event) => {
   /* Find the required API call parameters in Netflix's reactContext. */
   let authUrl, buildIdentifier, apiBaseUrl
   try {
+
+    // We rely on these three parameters to form a valid API call.
     authUrl = window.netflix.reactContext.models.memberContext.data.userInfo.authURL
     buildIdentifier = window.netflix.reactContext.models.serverDefs.data.BUILD_IDENTIFIER
-    apiBaseUrl = decodeURI(window.netflix.reactContext.models.serverDefs.data.API_BASE_URL)
+    rawApiBaseUrl = window.netflix.reactContext.models.serverDefs.data.BOGUS_API_BASE_URL
+    apiBaseUrl = decodeURI(rawApiBaseUrl)
+
+    // If any of them is undefined, we raise an error to let the error handler handle this.
+    if (
+      typeof authUrl == 'undefined' ||
+      typeof buildIdentifier == 'undefined' ||
+      typeof rawApiBaseUrl == 'undefined'
+    ) {
+      console.log('some are undefined')
+      throw new Error('[NVA Downloader] authUrl, buildIdentifier or apiBaseUrl locations have changed.')
+    }
+
   } catch (err) {
-    console.log('[NVA Downloader] authUrl, buildIdentifier or apiBaseUrl locations have changed.', "\n", err)
+    console.log(err)
     viewCriticalError(err)
     throw new Error('Unable to obtain critical API variables. Please report this issue on GitHub.')
   }
