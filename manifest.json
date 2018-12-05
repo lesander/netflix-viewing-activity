@@ -13,7 +13,7 @@
       "run_at": "document_end",
       "js": ["src/js/content.js"],
       "css": [
-        "src/css/inject.css",
+        "src/css/main.css",
         "src/css/buttons.css",
         "src/css/loader.css"
       ]
