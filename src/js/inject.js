@@ -35,6 +35,8 @@ $(() => {
     `)
   }
 
+  // Warn the user for Netflix's own limited downloader.
+  $(`.viewing-activity-footer-download`).text(`Download limited information from Netflix`)
 
   // Attatch an event listener to the download button.
   $(document).on(`click`, `#va-download`, viewDownloadModal)
