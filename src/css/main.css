@@ -1,19 +1,21 @@
+/** Use Netflix's fancy font on all 'va-' classes. **/
+*[class^="va-"] {
+  font-family: 'Netflix Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+/** Menu item & Modal open buttons **/
 .va-active {
   color: #fff !important;
 }
+
 .va-dl {
   float: right;
   font-size: 16px;
   margin-right: 15px;
+  margin-top: -8px;
 }
-.va-button {
-  display: inline-block;
-  border-radius: 7px;
-  padding: .4em .75em .35em;
-}
-.va-input {
 
-}
+/** Modals **/
 .va-modal {
   position: fixed;
   top: 0;
@@ -27,54 +29,74 @@
   justify-content:center;
   align-items:center;
 }
+
+.va-modal-error {
+  z-index: 30;
+}
+
 .va-modal-contents {
   background-color: #fff;
   color: #333;
-  padding: 3em;
-  border-radius: 10px; /* higher radius so that the white doesn't show underneath the title and footer. */
+  padding: 2em;
 }
+
 .va-modal-title {
   margin-top: -3em;
-  margin-left: -3em;
-  margin-right: -3em;
+  margin-left: -2em;
+  margin-right: -2em;
   padding-top: 1em;
-  padding-bottom: 1em;
-  padding-right: 3em;
-  padding-left: 3em;
-  border-top-left-radius: 7px;
-  border-top-right-radius: 7px;
+  padding-right: 2em;
+  padding-left: 2em;
 
   font-weight: 500;
-  background-color: #333232;
+  background-color: #fff;
   color: #fff;
-
-  text-align: center;
 }
+
+.va-modal-title > h1,
+.va-modal-title > h2 {
+  margin: 0;
+}
+
+.va-modal-error .va-modal-title {
+  background-color: #e50914;
+}
+
+.va-modal-error-message {
+  font-family: monospace !important;
+  max-width: 600px;
+}
+
 .va-modal-title > select {
   color: #000;
 }
+
 .va-modal-body {
-  padding-top: 2em;
-  padding-bottom: 2em;
+  padding-bottom: .5em;
 }
+
 .va-modal-body p {
   max-width: 500px;
 }
+
 .va-modal-body label {
   font-weight: bold;
 }
+
+.va-input {
+  color: #333;
+}
+
 .va-modal-footer {
   margin-bottom: -3em;
   padding-top: 1em;
-  padding-bottom: 1em;
-  margin-left: -3em;
-  margin-right: -3em;
+  padding-bottom: 1.5em;
+  margin-left: -1em;
+  margin-right: -1em;
   padding-left: 1em;
   padding-right: 1em;
-  background-color: lightgrey;
-  border-bottom-left-radius: 7px;
-  border-bottom-right-radius: 7px;
 }
+
 .va-modal-footer > button:last-of-type {
   float: right;
 }

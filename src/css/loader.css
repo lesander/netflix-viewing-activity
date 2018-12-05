@@ -1,0 +1,93 @@
+/**
+ * Created by Scott Galloway
+ * March 15 2016, April 13 2018
+ * https://codepen.io/scottloway/pen/zqoLyQ
+ */
+
+/** Container **/
+.va-loading-section {
+	text-align: center;
+	padding-top: 1em;
+}
+.va-loading-section h1 {
+	text-align: left;
+	font-size: inherit;
+}
+
+/** Circle loader **/
+.va-circle-loader {
+  margin-bottom: 1em;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-left-color: #5cb85c;
+  animation: va-loading 1.2s infinite linear;
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  border-radius: 50%;
+  width: 7em;
+  height: 7em;
+}
+
+.va-load-complete {
+  -webkit-animation: none;
+  animation: none;
+  border-color: #5cb85c;
+  transition: border 500ms ease-out;
+}
+
+@keyframes va-loading {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/** Checkmark done **/
+.va-checkmark {
+  display: none;
+}
+
+.va-checkmark.va-draw:after {
+  animation-duration: 800ms;
+  animation-timing-function: ease;
+  animation-name: va-checkmark;
+  transform: scaleX(-1) rotate(135deg);
+}
+
+.va-checkmark:after {
+  opacity: 1;
+  height: 3.5em;
+  width: 1.75em;
+  transform-origin: left top;
+  border-right: 3px solid #5cb85c;
+  border-top: 3px solid #5cb85c;
+  content: '';
+  left: 1.75em;
+  top: 3.5em;
+  position: absolute;
+}
+
+@keyframes va-checkmark {
+  0% {
+    height: 0;
+    width: 0;
+    opacity: 1;
+  }
+  20% {
+    height: 0;
+    width: 1.75em;
+    opacity: 1;
+  }
+  40% {
+    height: 3.5em;
+    width: 1.75em;
+    opacity: 1;
+  }
+  100% {
+    height: 3.5em;
+    width: 1.75em;
+    opacity: 1;
+  }
+}

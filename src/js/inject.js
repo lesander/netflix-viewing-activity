@@ -22,16 +22,21 @@ $(() => {
   // Create a navigation tab on the viewing activity page.
   $(`.aro-genre-list > ul`).append(`
     <li>
-      <a href="#" class="va-active">My Activity</a>
+      <a href="/viewingactivity" class="va-active">My Activity</a>
     </li>
   `)
 
-  // Create a button on the viewing activity page.
-  $(`h1`).append(`
-    <div class="va-dl">
-      <button class="va-button" id="va-download">Download</button>
-    </div>
-  `)
+  // Create a download button on the viewing activity page.
+  if (document.location.pathname === '/viewingactivity') {
+    $(`h1`).append(`
+      <div class="va-dl">
+        <button class="va-button va-button-blue va-button-small" id="va-download">Download</button>
+      </div>
+    `)
+  }
+
+  // Warn the user for Netflix's own limited downloader.
+  $(`.viewing-activity-footer-download`).text(`Download limited information from Netflix`)
 
   // Attatch an event listener to the download button.
   $(document).on(`click`, `#va-download`, viewDownloadModal)
@@ -41,6 +46,9 @@ $(() => {
 
   // Attach an event listener to the final download button.
   $(document).on(`click`, `.va-b-download`, downloadHistory)
+
+  // Attach an event listener to the close button for errors.
+  $(document).on(`click`, `.va-b-cancel`, hideDownloadModal)
 })
 
 
@@ -52,49 +60,165 @@ const viewDownloadModal = () => {
 
   // If the modal element already exists,
   // we do not need to create it again but just show it.
-  let modal = $(`.va-modal`)
+  let modal = $(`.va-modal-download`)
   if ($(modal).length) return $(modal).show()
 
   $(`body`).append(`
-    <div class="va-modal">
+    <div class="va-modal va-modal-download">
       <div class="va-modal-contents">
         <div class="va-modal-title">
-          Download
-          <select class="va-input" name="va-type">
-            <option value="viewingactivity" selected>Watching</option>
-            <option value="ratinghistory">Ratings</option>
-          </select>
-          Activity
+          <h1>
+            <span class="va-input-section">
+              Download
+              <select class="va-input" name="va-type">
+                <option value="viewingactivity" selected>Watching</option>
+                <option value="ratinghistory">Ratings</option>
+              </select>
+              Activity
+            </span>
+            <span class="va-loading-section">
+              <h1></h1>
+            </span>
+          </h1>
         </div>
         <div class="va-modal-body">
           <p>
             We will attempt to download all history related to your selected option.
-            Depending on your history, this might take a little while.<br>
+            Depending on your history, this might take a little while.
             Once complete, your history will be downloaded to your computer.
           </p>
 
-          <label>Please select an output file format</label>
-          <select class="va-input" name="va-format">
-            <option value="csv">CSV</option>
-            <option value="json">JSON</option>
-          </select>
+          <div class="va-input-section">
+            <label>Please select an output file format</label>
+            <select class="va-input" name="va-format">
+              <option value="csv">CSV</option>
+              <option value="json">JSON</option>
+            </select>
+          </div>
+
+          <div class="va-loading-section">
+            <div class="va-circle-loader">
+                <div class="va-checkmark va-draw"></div>
+            </div>
+          </div>
 
         </div>
         <div class="va-modal-footer">
-          <button class="va-button va-b-cancel">Cancel</button>
-          <button class="va-button va-b-download">Download</button>
+          <button class="va-button va-button-small va-b-cancel">Close</button>
+          <button class="va-button va-button-blue va-button-small va-b-download">Download</button>
         </div>
       </div>
     </div>
   `)
+
+  // Reset state of animation and modal.
+  hideWorkingAnimation()
 }
 
 /**
- * Hide the download modal.
- * @return {boolean}
+ * Display a nice modal to show the end-user an error.
+ * @param  {Object} err
+ * @return {void}
+ */
+const viewCriticalError = (err) => {
+
+  // If the modal element already exists,
+  // we do not need to create it again but just show it.
+  let errorModal = $(`.va-modal-error`)
+  if ($(errorModal).length) return $(errorModal).show()
+
+  $(`body`).append(`
+    <div class="va-modal va-modal-error">
+      <div class="va-modal-contents">
+        <div class="va-modal-title" style="padding-bottom:1em;">
+          <h2>
+            <strong>Netflix Viewing Activity</strong> has encountered an error
+          </h2>
+        </div>
+        <div class="va-modal-body">
+          <p>
+            We haven't seen this problem before. It looks like Netflix
+            has changed something on this page, and now the extension
+            is unable to fetch some important things.
+            The technical error is shown below.
+          </p>
+          <p>
+            <pre class="va-modal-error-message"></pre>
+          </p>
+        </div>
+        <div class="va-modal-footer">
+          <button class="va-button va-button-small va-b-cancel">Close</button>
+          <button
+            class="va-button va-button-blue va-button-small"
+            onclick="window.open('https://github.com/lesander/netflix-viewing-activity/issues', '_blank')"
+          >Report Issue</button>
+        </div>
+      </div>
+    </div>
+  `)
+
+  // Set the detailed error message.
+  $(`.va-modal-error-message`).text(err)
+}
+
+/**
+ * Display a nice animation to show the end-user we're working on it.
+ * @return {void}
+ */
+const showWorkingAnimation = () => {
+
+  // Start spinning
+  $(`.va-loading-section`).show()
+  $(`.va-input-section`).hide()
+
+  // Hide download button
+  $(`.va-b-download`).hide()
+
+  // Update title
+  $(`.va-loading-section > h1`).text(`Working on it..`)
+}
+
+/**
+ * Display a nice message to show the end-user we're done.
+ * @param {integer} amountOfItems
+ * @return {void}
+ */
+const showDone = (amountOfItems) => {
+
+  // Stop spinning
+  $(`.va-circle-loader`).addClass(`va-load-complete`)
+
+  // Show the checkmark
+  $(`.va-checkmark`).show()
+
+  // Update the title
+  $(`.va-loading-section > h1`).text(`Done!`)
+
+  // Show the amount of found items.
+  // TODO.
+}
+
+const hideWorkingAnimation = () => {
+
+  // Hide loading section
+  $(`.va-loading-section`).hide()
+  $(`.va-circle-loader`).removeClass(`va-load-complete`)
+  $(`.va-checkmark`).hide()
+
+  // Show input fields & download button
+  $(`.va-input-section`).show()
+  $(`.va-b-download`).show()
+}
+
+/**
+ * Hide the modal.
+ * @return {void}
  */
 const hideDownloadModal = () => {
-  return $(`.va-modal`).hide()
+  $(`.va-modal:visible`).hide()
+  $(`.va-modal-error:visible`).hide()
+  hideWorkingAnimation()
+  return
 }
 
 /**
@@ -109,9 +233,30 @@ const downloadHistory = async (event) => {
   const file = $(`select[name=va-format]`).val() || 'json'
 
   /* Find the required API call parameters in Netflix's reactContext. */
-  const authUrl = window.netflix.reactContext.models.memberContext.data.userInfo.authURL
-  const buildIdentifier = window.netflix.reactContext.models.serverDefs.data.BUILD_IDENTIFIER
-  const apiBaseUrl = decodeURI(window.netflix.reactContext.models.serverDefs.data.API_BASE_URL)
+  let authUrl, buildIdentifier, apiBaseUrl
+  try {
+
+    // We rely on these three parameters to form a valid API call.
+    authUrl = window.netflix.reactContext.models.memberContext.data.userInfo.authURL
+    buildIdentifier = window.netflix.reactContext.models.serverDefs.data.BUILD_IDENTIFIER
+    rawApiBaseUrl = window.netflix.reactContext.models.serverDefs.data.API_BASE_URL
+    apiBaseUrl = decodeURI(rawApiBaseUrl)
+
+    // If any of them is undefined, we raise an error to let the error handler handle this.
+    if (
+      typeof authUrl == 'undefined' ||
+      typeof buildIdentifier == 'undefined' ||
+      typeof rawApiBaseUrl == 'undefined'
+    ) {
+      console.log('some are undefined')
+      throw new Error('[NVA Downloader] authUrl, buildIdentifier or apiBaseUrl locations have changed.')
+    }
+
+  } catch (err) {
+    console.log(err)
+    viewCriticalError(err)
+    throw new Error('Unable to obtain critical API variables. Please report this issue on GitHub.')
+  }
 
   console.debug(`[NVA Downloader] authUrl, buildIdentifier, apiBaseUrl`, authUrl, buildIdentifier, apiBaseUrl)
 
@@ -124,6 +269,8 @@ const downloadHistory = async (event) => {
      By default, no recordsAmount is given, so we continue parsing pages
      until the last result has less records than the given pageSize.
      AFAIK this is also the way Netflix loads all records client-side. */
+  showWorkingAnimation()
+
   let history = []
   for (var i = 0; i < pagesToLoad; i++) {
 
@@ -199,6 +346,8 @@ const downloadHistory = async (event) => {
   link.setAttribute(`download`, fileName)
   link.click()
   link.remove()
+
+  showDone(history.length)
 
   /* Return the history array.
      dunno, maybe someone wants to do something with it. */
