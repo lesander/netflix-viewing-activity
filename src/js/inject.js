@@ -239,14 +239,13 @@ const downloadHistory = async (event) => {
     // We rely on these three parameters to form a valid API call.
     authUrl = window.netflix.reactContext.models.memberContext.data.userInfo.authURL
     buildIdentifier = window.netflix.reactContext.models.serverDefs.data.BUILD_IDENTIFIER
-    rawApiBaseUrl = window.netflix.reactContext.models.serverDefs.data.API_BASE_URL
-    apiBaseUrl = decodeURI(rawApiBaseUrl)
+    apiBaseUrl = window.netflix.reactContext.models.services.data.api.path[1]
 
     // If any of them is undefined, we raise an error to let the error handler handle this.
     if (
       typeof authUrl == 'undefined' ||
       typeof buildIdentifier == 'undefined' ||
-      typeof rawApiBaseUrl == 'undefined'
+      typeof apiBaseUrl == 'undefined'
     ) {
       console.log('some are undefined')
       throw new Error('[NVA Downloader] authUrl, buildIdentifier or apiBaseUrl locations have changed.')
@@ -282,7 +281,7 @@ const downloadHistory = async (event) => {
 
     /* Construct the url for our API call and set the appropriate headers.
        Note: the apiBaseUrl begins with a forwards slash. */
-    const url = `https://www.netflix.com/api${apiBaseUrl}/` +
+    const url = `https://www.netflix.com/api/${apiBaseUrl}/` +
                 `${buildIdentifier}/${type}` +
                 `?pg=${pageNum}&pgSize=${pageSize}&_=${timestamp}` +
                 `&authURL=${authUrl}`
