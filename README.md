@@ -10,10 +10,6 @@
     <br>
     <br>
     <a href="https://github.com/lesander/netflix-viewing-activity/archive/master.zip">Download Source</a>
-    &middot;
-    <a href="https://about.sander.tech">About Me</a>
-    &middot;
-    <a href="https://paypal.me/sanderlaarhoven">Buy me a Beer</a>
   </p>
 </p>
 
@@ -34,4 +30,4 @@ Contributors can easily set up a work environment as follows:
 
 
 ## License
-Code and documentation copyright 2018 Sander Laarhoven. Code released under the [MIT License](https://github.com/lesander/netflix-viewing-activity/blob/master/README.md).
+Code and documentation copyright 2018. Code released under the [MIT License](https://github.com/lesander/netflix-viewing-activity/blob/master/README.md).
