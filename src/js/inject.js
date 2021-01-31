@@ -1,6 +1,5 @@
 /**
  * Netflix Viewing Activity
- * by Sander Laarhoven
  * https://github.com/lesander/netflix-viewing-activity
  */
 
