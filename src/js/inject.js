@@ -1,6 +1,8 @@
 /**
  * Netflix Viewing Activity
  * https://github.com/lesander/netflix-viewing-activity
+ * Created by @lesander
+ * Updated by @ramazansancar (https://github.com/ramazansancar/netflix-viewing-activity) - 2023-01-04
  */
 
 /* Oddly enough, Netflix seems to be using both ReactJS AND jQuery on _some_
@@ -10,7 +12,6 @@
 /* When the DOM has been loaded, we alter the UI of Netflix a little,
    allowing the user to download their viewing or rating history. */
 $(() => {
-
   // Create a navigagion tab in the main index navbar.
   $(`.tabbed-primary-navigation`).append(`
     <li class="navigation-tab">
@@ -56,7 +57,6 @@ $(() => {
  * @return {boolean}
  */
 const viewDownloadModal = () => {
-
   // If the modal element already exists,
   // we do not need to create it again but just show it.
   let modal = $(`.va-modal-download`)
@@ -120,7 +120,6 @@ const viewDownloadModal = () => {
  * @return {void}
  */
 const viewCriticalError = (err) => {
-
   // If the modal element already exists,
   // we do not need to create it again but just show it.
   let errorModal = $(`.va-modal-error`)
@@ -226,31 +225,29 @@ const hideDownloadModal = () => {
  * @return {Array}
  */
 const downloadHistory = async (event) => {
-
   /* Get the history type and file type from the form select. */
   const type = $(`select[name=va-type]`).val() || 'viewingactivity'
   const file = $(`select[name=va-format]`).val() || 'json'
 
   /* Find the required API call parameters in Netflix's reactContext. */
   let authUrl, buildIdentifier, apiBaseUrl
-  try {
-
+  try{
     // We rely on these three parameters to form a valid API call.
     authUrl = window.netflix.reactContext.models.memberContext.data.userInfo.authURL
-    buildIdentifier = window.netflix.reactContext.models.serverDefs.data.BUILD_IDENTIFIER
+    //buildIdentifier = window.netflix.reactContext.models.serverDefs.data.BUILD_IDENTIFIER
+    buildIdentifier = 'mre'
     apiBaseUrl = window.netflix.reactContext.models.services.data.api.path[1]
-
+    username = window.netflix.reactContext.models.userInfo.data.name
     // If any of them is undefined, we raise an error to let the error handler handle this.
-    if (
+    if(
       typeof authUrl == 'undefined' ||
       typeof buildIdentifier == 'undefined' ||
       typeof apiBaseUrl == 'undefined'
-    ) {
+    ){
       console.log('some are undefined')
       throw new Error('[NVA Downloader] authUrl, buildIdentifier or apiBaseUrl locations have changed.')
     }
-
-  } catch (err) {
+  }catch(err){
     console.log(err)
     viewCriticalError(err)
     throw new Error('Unable to obtain critical API variables. Please report this issue on GitHub.')
@@ -270,7 +267,7 @@ const downloadHistory = async (event) => {
   showWorkingAnimation()
 
   let history = []
-  for (var i = 0; i < pagesToLoad; i++) {
+  for (var i = 0; i < pagesToLoad; i++){
 
     const timestamp = + new Date()
     const pageNum = i
@@ -290,9 +287,9 @@ const downloadHistory = async (event) => {
     }
 
     /* Request the viewing history from Netflix's API. */
-    try {
+    try{
       response = await fetch(url, options)
-    } catch (error) {
+    }catch (error){
       console.debug('[NVA Downloader] Fetch Error', error)
       continue
     }
@@ -300,14 +297,14 @@ const downloadHistory = async (event) => {
     /* Convert the response body from JSON to an object
        and append each item to the history. */
     const responseObj = await response.json()
-    const itemsName = (type === 'viewingactivity' ? 'viewedItems' : 'ratingItems')
-    for (var y = 0; y < responseObj[itemsName].length; y++) {
+    const itemsName = (type === 'viewingactivity' ? `viewedItems` : `ratingItems`)
+    for(var y = 0; y < responseObj[itemsName].length; y++){
       history.push(responseObj[itemsName][y])
     }
 
     /* Check how many records we got. If it's less than the set pageSize, we have
        reached the end of the history. */
-    if (responseObj[itemsName].length < pageSize) {
+    if(responseObj[itemsName].length < pageSize){
       console.debug('[NVA Downloader] Stopping parsing, reached end of history.')
       break
     }
@@ -318,13 +315,12 @@ const downloadHistory = async (event) => {
 
   /* Create a CSV or JSON file to download. */
   let data
-  if (file === 'json') {
+  if(file === 'json'){
 
     // Create a data uri with the json object embedded inside.
     data = `data:text/json;charset=utf-8,${encodeURIComponent(JSON.stringify(history))}`
 
-  } else {
-
+  }else{
     // Convert the object to CSV using papaparse (http://papaparse.com).
     const csv = Papa.unparse(history, {
       quotes: true,
@@ -333,12 +329,11 @@ const downloadHistory = async (event) => {
       newline: "\r\n"
     })
     data = `data:text/csv;charset=utf-8,${csv}`
-
   }
 
   /* Create an anchor element and click the anchor to start the download.
      I couldn't for some odd reason port this to jQuery oh well.. */
-  const fileName = (type === 'viewingactivity' ? 'viewedHistory' : 'ratingHistory') + `.${file}`
+  const fileName = (type === 'viewingactivity' ? `viewedHistory-${username}` : `ratingHistory-${username}`) + `.${file}`
   let link = document.createElement(`a`)
   link.setAttribute(`href`, data)
   link.setAttribute(`download`, fileName)
@@ -346,7 +341,6 @@ const downloadHistory = async (event) => {
   link.remove()
 
   showDone(history.length)
-
   /* Return the history array.
      dunno, maybe someone wants to do something with it. */
   return history
