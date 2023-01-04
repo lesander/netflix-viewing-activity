@@ -2,16 +2,24 @@
   "name": "Netflix Viewing Activity",
   "description": "This open-source extension automatically retrieves your Netflix viewing activity in JSON or CSV format.",
   "homepage_url": "https://github.com/lesander/netflix-viewing-activity",
-  "version": "1.1.1",
-  "manifest_version": 2,
+  "version": "1.2.1",
+  "manifest_version": 3,
   "icons": {
     "128": "src/img/nva-128.png"
   },
   "content_scripts": [
     {
-      "matches": ["*://*.netflix.com/*"],
+      "matches": [
+        "*://*.netflix.com/*"
+      ],
       "run_at": "document_end",
-      "js": ["src/js/content.js"],
+      "js": [
+        /*"src/js/test.js",*/
+        "src/js/inject.js",
+        "src/js/content.js",
+        "src/js/lib/jquery.min.js",
+        "src/js/lib/papaparse.min.js"
+      ],
       "css": [
         "src/css/main.css",
         "src/css/buttons.css",
@@ -19,14 +27,36 @@
       ]
     }
   ],
-  "externally_connectable": {
-    "matches": ["*://*.netflix.com/*"]
+  "background": {
+    "service_worker": "src/js/content.js"
   },
-  "permissions": ["*://*.netflix.com/*", "cookies"],
-  "web_accessible_resources": [
-    "src/js/inject.js",
-    "src/css/inject.css",
-    "src/js/lib/jquery.min.js",
-    "src/js/lib/papaparse.min.js"
-  ]
+  "externally_connectable": {
+    "matches": [
+      "*://*.netflix.com/*"
+    ]
+  },
+  "host_permissions": [
+    "*://*.netflix.com/*"
+  ],
+  "permissions": [
+    "cookies",
+    "scripting"
+  ],
+  "web_accessible_resources": [{
+    "resources": [
+      /*"src/js/test.js",*/
+      "src/js/inject.js",
+      "src/css/main.css",
+      "src/css/loader.css",
+      "src/css/buttons.css",
+      "src/js/lib/jquery.min.js",
+      "src/js/lib/papaparse.min.js"
+    ],
+    "matches": [
+      "*://*.netflix.com/*"
+    ],
+    "extension_ids": [
+      "*"
+    ]
+  }]
 }
