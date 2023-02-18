@@ -16,7 +16,7 @@
 
 /** Circle loader **/
 .va-circle-loader {
-  margin-bottom: 1em;
+  margin-bottom: 0em;
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-left-color: #5cb85c;
   animation: va-loading 1.2s infinite linear;

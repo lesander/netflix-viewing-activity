@@ -1,6 +1,6 @@
 /**
  * Netflix Viewing Activity
- * https://github.com/lesander/netflix-viewing-activity
+ * https://github.com/ramazansancar/netflix-viewing-activity
  * Created by @lesander
  * Updated by @ramazansancar (https://github.com/ramazansancar/netflix-viewing-activity) - 2023-01-04
  */
@@ -40,11 +40,12 @@ for (var i = 0; i < styles.length; i++) {
 // Append inject.js to the DOM of the webpage after 200ms.
 // This is a dirty hack since jQuery is unpredictable as to when
 // it has finished loading.
+/*
 setTimeout(() => {
   let scripttest = document.createElement('script')
   scripttest.src = chrome.runtime.getURL('src/js/test.js');
   document.body.appendChild(scripttest)
-}, 200)
+}, 200)*/
 
 setTimeout(() => {
   let script = document.createElement('script')

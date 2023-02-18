@@ -39,19 +39,20 @@
   background-color: #fff;
   color: #333;
   padding: 2em;
+  border: 1px #ccc solid;
+  border-radius: 10px;
 }
 
 .va-modal-title {
-  margin-top: -3em;
-  margin-left: -2em;
+  margin-top: -2em;
+  margin-left: 2em;
   margin-right: -2em;
   padding-top: 1em;
   padding-right: 2em;
   padding-left: 2em;
-
   font-weight: 500;
-  background-color: #fff;
-  color: #fff;
+  background-color: transparent;
+  color: transparent;
 }
 
 .va-modal-title > h1,
