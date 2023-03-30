@@ -1,0 +1,25 @@
+name: my-steam-games-ext
+
+on:
+  push:
+    tags:
+    - '*'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-node@v1
+      with:
+        node-version: 16.x
+    - run: npm install --save-dev
+    - run: npm run lint
+    - run: npm run build
+    - run: (cd dist/ext && zip -r -9 ../../netflix-viewing-activity-ext-${{github.ref_name}}.zip *)
+    - uses: xresloader/upload-to-github-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        file: netflix-viewing-activity-ext-${{github.ref_name}}.zip
+        tags: true
