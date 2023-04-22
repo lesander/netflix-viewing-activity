@@ -232,22 +232,26 @@ const downloadHistory = async (event) => {
   const file = $(`select[name=va-format]`).val() || 'json'
 
   /* Find the required API call parameters in Netflix's reactContext. */
-  let authUrl, buildIdentifier, apiBaseUrl
+  let authUrl, userGuid, buildIdentifier, apiBaseUrl
   try {
 
     // We rely on these three parameters to form a valid API call.
     authUrl = window.netflix.reactContext.models.memberContext.data.userInfo.authURL
+    userGuid = window.netflix.reactContext.models.memberContext.data.userInfo.userGuid
     buildIdentifier = window.netflix.reactContext.models.serverDefs.data.BUILD_IDENTIFIER
     apiBaseUrl = window.netflix.reactContext.models.services.data.api.path[1]
+
+    buildIdentifier = 'mre'
 
     // If any of them is undefined, we raise an error to let the error handler handle this.
     if (
       typeof authUrl == 'undefined' ||
+      typeof userGuid == 'undefined' ||
       typeof buildIdentifier == 'undefined' ||
       typeof apiBaseUrl == 'undefined'
     ) {
       console.log('some are undefined')
-      throw new Error('[NVA Downloader] authUrl, buildIdentifier or apiBaseUrl locations have changed.')
+      throw new Error('[NVA Downloader] authUrl, buildIdentifier, userGuid or apiBaseUrl locations have changed.')
     }
 
   } catch (err) {
@@ -256,7 +260,7 @@ const downloadHistory = async (event) => {
     throw new Error('Unable to obtain critical API variables. Please report this issue on GitHub.')
   }
 
-  console.debug(`[NVA Downloader] authUrl, buildIdentifier, apiBaseUrl`, authUrl, buildIdentifier, apiBaseUrl)
+  console.debug(`[NVA Downloader] authUrl, userGuid, buildIdentifier, apiBaseUrl`, authUrl, userGuid, buildIdentifier, apiBaseUrl)
 
   /* We set the records amount to infinity for now. Once the API sends back
      less than pageSize results, we stop crawling. */
@@ -282,7 +286,7 @@ const downloadHistory = async (event) => {
        Note: the apiBaseUrl begins with a forwards slash. */
     const url = `https://www.netflix.com/api/${apiBaseUrl}/` +
                 `${buildIdentifier}/${type}` +
-                `?pg=${pageNum}&pgSize=${pageSize}&_=${timestamp}` +
+                `?pg=${pageNum}&pgSize=${pageSize}&guid=${userGuid}&_=${timestamp}` +
                 `&authURL=${authUrl}`
     let options = {
       credentials: 'same-origin',
